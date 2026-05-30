@@ -134,6 +134,14 @@ Returns fund‑level metrics such as total investment, units purchased, and aver
 * HTML
 * CSS
 * JavaScript
+## UI Design
+
+- UI mockup: [UI Output](https://drive.google.com/file/d/19tqEsrroGXRECI1S6ktf5RVa_4iWi2kO/view?usp=sharing)
+
+## Endpoint 
+
+- Endpoint overview: [Endpoints](https://drive.google.com/file/d/1MSthLwzeWZGU-PwbhdNPV0kbveE0BHgo/view?usp=sharing)
+
 
 ## Testing the API
 
