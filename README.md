@@ -1,19 +1,16 @@
 # Mutual Fund Transaction Dashboard
 
+## Live Application
+
+https://mutual-fund-dashboard.vercel.app
+
 ## Overview
 
 This project is a Mutual Fund Transaction Dashboard built using FastAPI for the backend and HTML, CSS, and JavaScript for the frontend. The application stores transaction data in PostgreSQL and can be connected to a Supabase-hosted PostgreSQL database.
 
 ## Project Setup
 
-### 1. Clone the Repository
-
-```bash
-git clone <repository-url>
-cd Task
-```
-
-### 2. Create and Activate Virtual Environment
+### 1. Create and Activate Virtual Environment
 
 ```bash
 python -m venv venv
@@ -25,13 +22,13 @@ Windows:
 venv\Scripts\activate
 ```
 
-### 3. Install Dependencies
+### 2. Install Dependencies
 
 ```bash
 pip install -r backend/requirements.txt
 ```
 
-### 4. Configure Environment Variables
+### 3. Configure Environment Variables
 
 Create a `.env` file and add your database connection string:
 
@@ -39,7 +36,7 @@ Create a `.env` file and add your database connection string:
 DATABASE_URL=postgresql://postgres:password@host:5432/database_name
 ```
 
-### 5. Create Database Tables
+### 4. Create Database Tables
 
 Run the setup script:
 
@@ -51,7 +48,7 @@ python db_setup.py
 
 ### Start the Backend
 
-```bash
+```cmd
 uvicorn backend.main:app --reload --port 8000
 ```
 
@@ -121,6 +118,11 @@ GET /api/dashboard/mutual-funds
 ```
 
 Returns fund‑level metrics such as total investment, units purchased, and average NAV.
+
+### Deployment
+
+vercel
+
 
 ## Technology Stack
 
