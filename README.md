@@ -2,7 +2,7 @@
 
 ## Live Application
 
-https://mutual-fund-dashboard.vercel.app
+https://mutual-fund-sigma.vercel.app/
 
 ## Overview
 
@@ -12,20 +12,20 @@ This project is a Mutual Fund Transaction Dashboard built using FastAPI for the 
 
 ### 1. Create and Activate Virtual Environment
 
-```bash
+```cmd
 python -m venv venv
 ```
 
-Windows:
+Activate the virtual environment:
 
-```bash
+```cmd
 venv\Scripts\activate
 ```
 
 ### 2. Install Dependencies
 
-```bash
-pip install -r backend/requirements.txt
+```cmd
+pip install -r backend\requirements.txt
 ```
 
 ### 3. Configure Environment Variables
@@ -40,9 +40,11 @@ DATABASE_URL=postgresql://postgres:password@host:5432/database_name
 
 Run the setup script:
 
-```bash
+```cmd
 python db_setup.py
 ```
+
+---
 
 ## Running the Application
 
@@ -66,7 +68,7 @@ http://localhost:8000/docs
 
 ### Start the Frontend
 
-```bash
+```cmd
 cd frontend
 python -m http.server 3000
 ```
@@ -76,6 +78,8 @@ Frontend URL:
 ```
 http://localhost:3000
 ```
+
+---
 
 ## Available API Endpoints
 
@@ -101,7 +105,7 @@ Returns mutual fund purchase details for a selected investor.
 GET /api/dashboard/fund-investors
 ```
 
-Returns investor‑wise details for a selected mutual fund.
+Returns investor-wise details for a selected mutual fund.
 
 ### Investors Summary
 
@@ -117,37 +121,43 @@ Returns total investment amount grouped by investor.
 GET /api/dashboard/mutual-funds
 ```
 
-Returns fund‑level metrics such as total investment, units purchased, and average NAV.
+Returns fund-level metrics such as total investment, units purchased, and average NAV.
 
-### Deployment
+---
 
-vercel
+## Deployment
 
+- Vercel
+
+---
 
 ## Technology Stack
 
-* Python 3.9+
-* FastAPI
-* Uvicorn
-* PostgreSQL
-* Supabase
-* psycopg2
-* python‑dotenv
-* HTML
-* CSS
-* JavaScript
+- Python 3.9+
+- FastAPI
+- Uvicorn
+- PostgreSQL
+- Supabase
+- psycopg2
+- python-dotenv
+- HTML
+- CSS
+- JavaScript
+
+---
+
 ## UI Design
 
-- UI mockup: [UI Output](https://drive.google.com/file/d/19tqEsrroGXRECI1S6ktf5RVa_4iWi2kO/view?usp=sharing)
+- UI Output: https://drive.google.com/file/d/19tqEsrroGXRECI1S6ktf5RVa_4iWi2kO/view?usp=sharing
 
-## Endpoint 
+## Endpoint Overview
 
-- Endpoint overview: [Endpoints](https://drive.google.com/file/d/1MSthLwzeWZGU-PwbhdNPV0kbveE0BHgo/view?usp=sharing)
+- Endpoints: https://drive.google.com/file/d/1MSthLwzeWZGU-PwbhdNPV0kbveE0BHgo/view?usp=sharing
 
+---
 
 ## Testing the API
 
 You can test all endpoints using:
 
-* Swagger UI (`/docs`)
-* Postman
+- Swagger UI (`/docs`)
