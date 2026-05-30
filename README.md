@@ -141,8 +141,3 @@ You can test all endpoints using:
 
 * Swagger UI (`/docs`)
 * Postman
-* cURL
-
-## License
-
-This project is licensed under the MIT License.
