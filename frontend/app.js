@@ -1,10 +1,10 @@
 // Base URL of the FastAPI Backend
 // - Local development (file://, Live Server, localhost): point to FastAPI at localhost:8000
-// - Production (Vercel): use relative URLs (empty string) so requests go to the same host
+// - Production (Vercel): use the current origin so new URL() gets a valid absolute URL
 const isLocal = window.location.protocol === 'file:' ||
     window.location.hostname === 'localhost' ||
     window.location.hostname === '127.0.0.1';
-const API_BASE_URL = isLocal ? 'http://localhost:8000' : '';
+const API_BASE_URL = isLocal ? 'http://localhost:8000' : window.location.origin;
 
 
 // Global references to Chart.js instances to allow destruction on update
