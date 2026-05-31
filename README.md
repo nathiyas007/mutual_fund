@@ -148,7 +148,7 @@ Returns fund-level metrics such as total investment, units purchased, and averag
 
 ## UI Design
 
-- UI Output: https://drive.google.com/file/d/19tqEsrroGXRECI1S6ktf5RVa_4iWi2kO/view?usp=sharing
+- UI Output: https://drive.google.com/file/d/1YgZP_CzcM3v1NAd2_A3nuUK8H8orsXFo/view?usp=sharing
 
 ## Endpoint Overview
 
