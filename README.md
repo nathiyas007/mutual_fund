@@ -152,7 +152,7 @@ Returns fund-level metrics such as total investment, units purchased, and averag
 
 ## Endpoint Overview
 
-- Endpoints: https://drive.google.com/file/d/1MSthLwzeWZGU-PwbhdNPV0kbveE0BHgo/view?usp=sharing
+- Endpoints: https://drive.google.com/file/d/1bd-q5gUyU3_28JJJY0J0Alovx81wHPW1/view?usp=sharing
 
 ---
 
