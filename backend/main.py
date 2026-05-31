@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager, contextmanager
 from fastapi import FastAPI, HTTPException, Query
+from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from psycopg2 import pool
 import os
@@ -9,6 +10,14 @@ from dotenv import load_dotenv
 
 # Load environment variables from .env
 load_dotenv()
+
+class Transaction(BaseModel):
+    pan: str
+    inv_name: str
+    scheme: str
+    traddate: str  # Expected format YYYY-MM-DD
+    amount: float
+    units: float
 
 # DB connection config
 DATABASE_URL = os.getenv(
@@ -282,5 +291,87 @@ def get_mutual_funds(
                     "total_amount": float(row[1]) if row[1] is not None else 0.0,
                     "total_units": float(row[2]) if row[2] is not None else 0.0,
                     "avg_nav": float(row[3]) if row[3] is not None else 0.0
+                })
+            return results
+
+def parse_date(date_str: str):
+    """
+    Parse date strings into datetime objects.
+    Supports formats like '31/05/2026', '2026-05-31', '5/27/2025 12:00:00 AM', etc.
+    """
+    if not date_str or date_str.strip() == '':
+        return None
+    date_str = date_str.strip().strip("'")
+    formats = [
+        '%d/%m/%Y',              # 31/05/2026
+        '%m/%d/%Y %I:%M:%S %p',  # 5/27/2025 12:00:00 AM
+        '%m/%d/%Y %H:%M:%S',
+        '%Y-%m-%d %H:%M:%S',
+        '%Y-%m-%d',              # 2026-05-31
+        '%m/%d/%Y',
+        '%d-%m-%Y',
+    ]
+    for fmt in formats:
+        try:
+            return datetime.datetime.strptime(date_str, fmt)
+        except ValueError:
+            continue
+    return None
+
+@app.post("/api/transactions")
+def create_transaction(tx: Transaction):
+    """
+    Create a new transaction record.
+    """
+    parsed_date = parse_date(tx.traddate)
+    if parsed_date is None:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid date format: '{tx.traddate}'. Use DD/MM/YYYY or YYYY-MM-DD."
+        )
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                '''
+                INSERT INTO transactions (pan, inv_name, scheme, traddate, amount, units)
+                VALUES (%s, %s, %s, %s, %s, %s)
+                ''',
+                (tx.pan, tx.inv_name, tx.scheme, parsed_date, tx.amount, tx.units)
+            )
+            conn.commit()
+    return {"status": "success", "message": "Transaction created"}
+
+@app.get("/api/dashboard/aggregates")
+def get_aggregates(
+    period: str = Query("monthly", regex="^(daily|weekly|monthly)$"),
+    start_date: str = Query(None, pattern=r"^\d{4}-\d{2}-\d{2}$"),
+    end_date: str = Query(None, pattern=r"^\d{4}-\d{2}-\d{2}$")
+):
+    """
+    Aggregated total amount and units per scheme based on the selected period.
+    """
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            query = '''
+                SELECT
+                    date_trunc(%s, traddate) AS period_start,
+                    scheme,
+                    SUM(amount) AS total_amount,
+                    SUM(units) AS total_units
+                FROM transactions
+                WHERE 1=1
+                '''
+            params = []
+            query, params = apply_date_filters(query, params, start_date, end_date)
+            query += ' GROUP BY period_start, scheme ORDER BY period_start, total_amount DESC'
+            cur.execute(query, (period,) + tuple(params))
+            rows = cur.fetchall()
+            results = []
+            for row in rows:
+                results.append({
+                    "period_start": row[0].strftime("%Y-%m-%d") if row[0] else None,
+                    "scheme": row[1].strip() if row[1] else "Unknown Scheme",
+                    "total_amount": float(row[2]) if row[2] is not None else 0.0,
+                    "total_units": float(row[3]) if row[3] is not None else 0.0
                 })
             return results
